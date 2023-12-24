@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 
+import '../../Model/OrderModel.dart';
 import '../../Utils/Widgets/Bookings_Widget.dart';
 
 class ComplettedBookings extends StatelessWidget {
-  const ComplettedBookings({Key? key}) : super(key: key);
+  List<OrderModel> orders;
+
+   ComplettedBookings({Key? key,required this.orders}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,12 +17,14 @@ class ComplettedBookings extends StatelessWidget {
             context: context,
             removeTop: true,
             child: ListView.builder(
-              itemCount: 3, // Number of items in your list
+              itemCount: orders.length, // Number of items in your list
               itemBuilder: (BuildContext context, int index) {
+                final order = orders[index];
+
                 // Return a widget for each item at the specified index
                 return Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Bookings_Widget(isupcoming: false, iscompleted: true, iscancelled: false,),
+                  child: Bookings_Widget(isupcoming: false, iscompleted: true, iscancelled: false,order: order,),
                 );
               },
             ),

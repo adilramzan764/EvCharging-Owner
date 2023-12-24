@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 class CustomTextField extends StatelessWidget {
   Widget? icon; // Make the icon parameter optional
   String hinttext;
+  Widget? suffixicon;
+  TextEditingController controller;
 
-  CustomTextField({Key? key, this.icon, required this.hinttext})
+  CustomTextField({Key? key, this.icon, required this.hinttext, this.suffixicon,required this.controller})
       : super(key: key);
 
   @override
@@ -25,8 +27,10 @@ class CustomTextField extends StatelessWidget {
         ],
       ),
       child: TextFormField(
+        controller: controller,
         decoration: InputDecoration(
           prefixIcon: icon,
+          suffixIcon: suffixicon,
           hintText: hinttext,
           hintStyle: TextStyle(
             color: Colors.grey.withOpacity(0.5),

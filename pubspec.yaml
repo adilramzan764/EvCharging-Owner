@@ -42,6 +42,13 @@ dependencies:
   buttons_tabbar:
   pin_code_fields:
   image_picker:
+  flutter_easyloading:
+  file_picker:
+  shared_preferences:
+  socket_io_client:
+
+
+
 
 
 

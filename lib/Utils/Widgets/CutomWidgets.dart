@@ -8,11 +8,11 @@ import '../../View/Bottom Navigation/Bottom Navigation.dart';
 import '../Color/Color.dart';
 import 'Custom Button/Custom Button.dart';
 
-Widget EditProfile_TextField(String icon, String hintext) {
+Widget EditProfile_TextField(String icon, String hintext,TextEditingController controller) {
   return Padding(
     padding: const EdgeInsets.symmetric(horizontal: 15.0),
     child: TextField(
-      // controller: _textEditingController,
+      controller: controller,
       decoration: InputDecoration(
         prefixIcon: Transform.scale(scale: 0.3, child: SvgPicture.asset(icon)),
         hintText: hintext,
@@ -116,7 +116,7 @@ Widget CircularImage(String pic, double height, double width) {
     width: width,
     decoration: BoxDecoration(
         shape: BoxShape.circle,
-        image: DecorationImage(image: AssetImage(pic), fit: BoxFit.cover)
+        image: DecorationImage(image: NetworkImage(pic), fit: BoxFit.cover)
 
       // boxShadow: [
       //

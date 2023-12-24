@@ -17,6 +17,15 @@ class WithdrawAmount extends StatefulWidget {
 }
 
 class _WithdrawAmountState extends State<WithdrawAmount> {
+
+  TextEditingController addamount=TextEditingController();
+  TextEditingController cardholder=TextEditingController();
+  TextEditingController cardnumber=TextEditingController();
+  TextEditingController expirydate=TextEditingController();
+  TextEditingController cvv=TextEditingController();
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,7 +76,7 @@ class _WithdrawAmountState extends State<WithdrawAmount> {
                 ),
               ),
               SizedBox(height: 20),
-              CustomTextField(hinttext: 'Add Amount'),
+              CustomTextField(hinttext: 'Add Amount', controller: addamount,),
               SizedBox(height: 20),
 
               SvgPicture.asset("assets/card.svg"),
@@ -83,7 +92,7 @@ class _WithdrawAmountState extends State<WithdrawAmount> {
                 ),
               ),
               // SizedBox(height: 10),
-              EditProfile_TextField('assets/profile-grey.svg', 'Oguz Bulbul')   ,           SizedBox(height: 10),
+              EditProfile_TextField('assets/profile-grey.svg', 'Oguz Bulbul',cardholder)   ,           SizedBox(height: 10),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
                 child: Align(
@@ -95,7 +104,7 @@ class _WithdrawAmountState extends State<WithdrawAmount> {
                 ),
               ),
               // SizedBox(height: 10),
-              EditProfile_TextField('assets/cardnumber.svg', '946953'),
+              EditProfile_TextField('assets/cardnumber.svg', '946953',cardholder),
               Row(
                 children: [
                   Expanded(
@@ -110,7 +119,7 @@ class _WithdrawAmountState extends State<WithdrawAmount> {
                             style: TextStyle(color: Color(0xff8F92A1), fontSize: 12),
                           ),
                         ),
-                        EditProfile_TextField('assets/calender.svg', '28/09/2023'),
+                        EditProfile_TextField('assets/calender.svg', '28/09/2023',cardholder),
                       ],
                     ),
                   ),
@@ -125,7 +134,7 @@ class _WithdrawAmountState extends State<WithdrawAmount> {
                           style: TextStyle(color: Color(0xff8F92A1),fontSize: 12),
                         ),
                         SizedBox(height: 10),
-                        EditProfile_TextField('assets/Lock.svg', '0 0 0'),
+                        EditProfile_TextField('assets/Lock.svg', '0 0 0',cardholder),
                       ],
                     ),
                   ),

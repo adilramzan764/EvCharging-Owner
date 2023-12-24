@@ -1,8 +1,11 @@
 
 import 'package:buttons_tabbar/buttons_tabbar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../Utils/Color/Color.dart';
+import '../../View Model/GetOrders_VM.dart';
 import 'CancelledBookings.dart';
 import 'ComplettedBookings.dart';
 import 'UpcomingBookings.dart';
@@ -16,10 +19,14 @@ class Bookings extends StatefulWidget {
 
 class _BookingsState extends State<Bookings> with SingleTickerProviderStateMixin {
   late TabController _tabController;
+  final OrderViewModel _orderViewModel = Get.put(OrderViewModel()); // Instantiate OrderViewModel
+
 
   @override
   void initState() {
     super.initState();
+    _orderViewModel.fetchOrdersById();
+
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection); // Add listener for tab changes
   }
@@ -150,8 +157,8 @@ class _BookingsState extends State<Bookings> with SingleTickerProviderStateMixin
                     controller: _tabController,
                     children: <Widget>[
                       ActiveBookings(),
-                      ComplettedBookings(),
-                      CancelledBookings()
+                      ComplettedBookings(orders: _orderViewModel.orders,),
+                      CancelledBookings(orders: _orderViewModel.orders,)
                     ],
                   ),
                 ),

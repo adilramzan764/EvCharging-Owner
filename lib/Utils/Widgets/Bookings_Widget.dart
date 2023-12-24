@@ -1,3 +1,4 @@
+import 'package:car_charging/Model/OrderModel.dart';
 import 'package:car_charging/Utils/Assets/Assets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,11 @@ import 'Custom Button/Custom Button.dart';
 
 
 class Bookings_Widget extends StatefulWidget {
-  bool isupcoming;  bool iscompleted;   bool iscancelled;
+  bool isupcoming;  bool iscompleted;   bool iscancelled;OrderModel? order;
 
 
 
-  Bookings_Widget({Key? key,required this.isupcoming, required this.iscompleted,required this.iscancelled}) : super(key: key);
+  Bookings_Widget({Key? key,required this.isupcoming, required this.iscompleted,required this.iscancelled,this.order}) : super(key: key);
 
   @override
   State<Bookings_Widget> createState() => _Bookings_WidgetState();
@@ -80,14 +81,14 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'Tesla Car',
+                          widget.order!.carName,
                           style: TextStyle(color: Colors.black, fontSize: 13),
                         ),
                         SizedBox(
                           height: 3,
                         ),
                         Text(
-                          'Tesla Plug CSI!-Dc',
+                          widget.order!.chargerType,
                           style: TextStyle(
                               color: Colors.grey.withOpacity(0.7), fontSize: 10),
                         ),
@@ -135,15 +136,15 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'William Cris John',
+                          widget.order!.buyerName,
                           style: TextStyle(color: Colors.black, fontSize: 11),
                         ),
                         Text(
-                          '0321-6946-2855',
+                          widget.order!.buyerPhone,
                           style: TextStyle(color: widget.isupcoming ? Colors.black :Colors.grey.withOpacity(0.6), fontSize: 11),
                         ),
                         Text(
-                          '21:05 am   13/01/2023',
+                          ' ${widget.order!.startedAt}',
                           style: TextStyle(color: widget.isupcoming ? Colors.black :Colors.grey.withOpacity(0.6), fontSize: 11),
                         ),
                       ],
@@ -177,7 +178,7 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '2 hours',
+                              ' ${widget.order!.duration} hours',
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
@@ -201,7 +202,7 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '\$30',
+                              '\$ ${widget.order!.chargingPrice}',
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(
@@ -225,7 +226,7 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '\$0.1',
+                              "\$ ${widget.order!.parkingPrice}",
                               style: TextStyle(fontSize: 11),
                             ),
                             Text(

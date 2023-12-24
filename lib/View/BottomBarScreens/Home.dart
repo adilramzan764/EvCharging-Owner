@@ -4,8 +4,13 @@ import 'package:car_charging/Utils/Widgets/CutomWidgets.dart';
 import 'package:car_charging/View/Notifications/Notification_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../Utils/Widgets/Bookings_Widget.dart';
+import '../../View Model/GetOrders_VM.dart';
+import '../../View Model/GetStationSpots_VM.dart';
+import '../../View Model/UserViewModel.dart';
 
 class Home extends StatelessWidget {
    Home({Key? key}) : super(key: key);
@@ -23,8 +28,20 @@ class Home extends StatelessWidget {
      'Free',
      'Reserved',
    ];
-  @override
+   final UserViewModel userViewModel = Get.put(UserViewModel());
+   final GetStationSpots_VM _viewModel = Get.put(GetStationSpots_VM());
+   final OrderViewModel _orderViewModel = Get.put(OrderViewModel());
+
+
+
+
+   @override
   Widget build(BuildContext context) {
+     // _viewModel.getSellerStationSpots();
+     // _orderViewModel.fetchOrdersById();
+     // print(userViewModel.userExists.value.toString());
+
+     // fetchData();
     return Scaffold(
       backgroundColor: Colors.white,
       body: Column(
@@ -47,7 +64,7 @@ class Home extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        CircularImage(ImageAssets.model, 35, 35),
+                        CircularImage(userViewModel.userExists.value.profileImage, 35, 35),
                         SizedBox(
                           width: 15,
                         ),
@@ -151,66 +168,118 @@ class Home extends StatelessWidget {
                       ),
                     ),
                   ),
+            // Obx(() {
+              // if (_viewModel.isLoading.value) {
+              //   return Center(child: CircularProgressIndicator());
+              // }
+              // if (_viewModel.errorMessage.isNotEmpty) {
+              //   return Center(
+              //     child: Text(
+              //       _viewModel.errorMessage.value,
+              //       style: TextStyle(color: Colors.red),
+              //     ),
+              //   );
+              // }
+              // else {
+              //   return
                   Container(
-                    height: (120*port_types.length.toDouble())/2,
-                  
+                    height: (130*port_types.length.toDouble())/2,
+
                     child: GridView.builder(
-                      padding: EdgeInsets.symmetric(horizontal: 15,vertical: 5),
-                      itemCount:  4/* Set your item count */,
+                      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                      itemCount: userViewModel.userExists.value.spots.length,
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount:   2/* Set your desired cross axis count */,
+                        crossAxisCount: 2,
                         crossAxisSpacing: 15,
                         mainAxisSpacing: 15,
                         childAspectRatio: MediaQuery.of(context).size.width /
                             (MediaQuery.of(context).size.height / 3),
-                  
                       ),
                       itemBuilder: (BuildContext context, int index) {
-                        return           Container(
+                        final spot = userViewModel.userExists.value.spots[index];
+
+                        return Container(
                           height: 90,
-                          // width: 150,
                           decoration: BoxDecoration(
-                              color: ColorValues.whiteColor,
-                              borderRadius: BorderRadius.circular(15),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: ColorValues.LightGray,
-                                    blurRadius: 2,
-                                    offset: Offset(1, 2))
-                              ]),
+                            color: ColorValues.whiteColor,
+                            borderRadius: BorderRadius.circular(15),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ColorValues.LightGray,
+                                blurRadius: 2,
+                                offset: Offset(1, 2),
+                              ),
+                            ],
+                          ),
                           child: Column(
                             children: [
                               Align(
                                 alignment: Alignment.centerRight,
                                 child: Container(
-                                  width: MediaQuery.of(context).size.width* 0.2,
+                                  width: MediaQuery.of(context).size.width * 0.2,
                                   height: 25,
                                   decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(topRight: Radius.circular(15),bottomLeft: Radius.circular(15)) ,
-                                      color: ColorValues.Green
+                                    borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(15),
+                                      bottomLeft: Radius.circular(15),
+                                    ),
+                                    color: ColorValues.Green,
                                   ),
                                   child: Center(
                                     child: Text(
-                                      free_or_reserved[index],
-                                      style: TextStyle(color: ColorValues.whiteColor ,fontSize:  12),
+                                      spot.bookingInfo.isNotEmpty
+                                          ? spot.bookingInfo[index].status
+                                          : '',
+                                      style: TextStyle(
+                                        color: ColorValues.whiteColor,
+                                        fontSize: 12,
+                                      ),
                                     ),
                                   ),
-                    
                                 ),
                               ),
-                              SizedBox(height: 5,),
-                              SvgPicture.asset(ImageAssets.plug,color: ColorValues.Blue,height: 50,width: 50,),
-                              SizedBox(height: 5,),
-                              Text(port_types[index],style: TextStyle(fontSize: 12),)
+                              SizedBox(height: 5),
+                              SvgPicture.asset(
+                                ImageAssets.plug,
+                                color: ColorValues.Blue,
+                                height: 50,
+                                width: 50,
+                              ),
+                              SizedBox(height: 5),
+                              Text(
+                                spot.spotName,
+                                style: TextStyle(fontSize: 12),
+                              ),
                             ],
                           ),
-                        )
-                        ;
+                        );
                       },
                     ),
+
                   ),
+
+
+
+
+              // Container(
+              //     height: 190,
+              //     child: ListView.builder(
+              //       itemCount: _viewModel.spots.length,
+              //       itemBuilder: (context, index) {
+              //         final spot = _viewModel.spots[index];
+              //         return ListTile(
+              //           title: Text(spot.spotName),
+              //           // Add more details or customize as needed
+              //         );
+              //       },
+              //     ),
+              //   );
+              // }
+            // }),
+
+
                   SizedBox(
                     height: 10,
                   ),
@@ -227,15 +296,38 @@ class Home extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Bookings_Widget(isupcoming: true, iscompleted: false, iscancelled: false,),
-                  ),
-                  SizedBox(height: MediaQuery.of(context).size.height*0.02,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
-                    child: Bookings_Widget(isupcoming: true, iscompleted: false, iscancelled: false,),
-                  ),
+                  Obx(() {
+                    // Check if orders are not empty
+                    if (_orderViewModel.orders.isNotEmpty) {
+                      return Container(
+                        height: MediaQuery.of(context).size.height * 0.39 *3 ,
+                        child: ListView.builder(
+                          padding: EdgeInsets.zero,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 3,
+                          itemBuilder: (context, index) {
+                            final order = _orderViewModel.orders[index];
+                            return
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Bookings_Widget(isupcoming: true, iscompleted: false, iscancelled: false,order: order,),
+                              );
+                        
+                            //   ListTile(
+                            //   title: Text('Order ID: ${order.id}'),
+                            //   subtitle: Text('Status: ${order.status}'),
+                            // )
+                                ;
+                          },
+                        ),
+                      );
+                    } else {
+                      // Show a loading indicator or an empty state
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  }),
 
                   SizedBox(height: MediaQuery.of(context).size.height*0.1,)
                 ],

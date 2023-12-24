@@ -4,9 +4,12 @@ import 'package:car_charging/View/BottomBarScreens/Settings/Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
-
+import '../../Sockets/Sockets.dart';
 import '../../Utils/Color/Color.dart';
+import '../../const/BaseURL.dart';
 import '../BottomBarScreens/Home.dart';
 import '../BottomBarScreens/Payment_Management.dart';
 
@@ -18,6 +21,32 @@ class MyBottomNavigationBar extends StatefulWidget {
 
 class _StackedBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
+  //
+  @override
+  void initState() {
+    super.initState();
+    // Initialize socket connection
+    Get.put(SocketController());
+
+    // listeningforORders();
+
+    //
+
+    // booking();
+  }
+  //
+  //
+  // Future<IO.Socket> initSocket() async {
+  //   final socket = IO.io(baseUrl, <String, dynamic>{
+  //     'transports': ['websocket'],
+  //   });
+  //
+  //   socket.on('connect', (_) {
+  //     print('Socket connected');
+  //   });
+  //
+  //   return socket;
+  // }
 
   final List<Widget> _screens = [
     Home(),

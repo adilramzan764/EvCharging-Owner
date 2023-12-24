@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -24,6 +25,14 @@ class ImagePickerHandler {
       onImagePicked(File(pickedFile.path));
     }
   }
+  Future<void> _getImageFromGallery() async {
+    FilePickerResult? imageResult =
+    await FilePicker.platform.pickFiles(type: FileType.image);
+
+    if (imageResult != null) {
+      onImagePicked(File(imageResult.files.first.path!));
+    }
+  }
 
   Future<void> showPickerDialog() async {
     return showDialog(
@@ -39,7 +48,7 @@ class ImagePickerHandler {
               SizedBox(height: 10),
               InkWell(
                 onTap: () {
-                  _getImage(ImageSource.gallery);
+                  _getImage(ImageSource.camera);
                   Navigator.pop(context); // Close the dialog
                 },
                 child: Container(
@@ -74,7 +83,8 @@ class ImagePickerHandler {
               SizedBox(height: 15),
               InkWell(
                 onTap: () {
-                  _getImage(ImageSource.camera);
+                  _getImageFromGallery();
+                  // _getImage(ImageSource.gallery);
                   Navigator.pop(context); // Close the dialog
                 },
                 child: Container(

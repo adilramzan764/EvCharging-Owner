@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../View Model/SelectedAnemtiesController.dart';
 import '../Assets/Assets.dart';
 import '../Color/Color.dart';
 
@@ -8,25 +9,21 @@ import '../Color/Color.dart';
 class Anemities_SignupWidget extends StatefulWidget {
   final String text;
   final String icon;
+  final bool isChecked;
+  final VoidCallback onTap;
 
-  Anemities_SignupWidget({required this.text,required this.icon});
-  @override
+  Anemities_SignupWidget({
+    required this.text,
+    required this.icon,
+    required this.isChecked,
+    required this.onTap,
+  });  @override
   _Anemities_SignupWidgetState createState() => _Anemities_SignupWidgetState();
 }
 
 class _Anemities_SignupWidgetState extends State<Anemities_SignupWidget> {
-  bool isChecked = false;
-final List<String> anemeties=[
-  'Dining',
-  'Restroom',
-  'Shopping',
-  'Lodging',
-  'Park',
-  'Wifi',
-  'Grocery',
-  'Free Charge'
-];
 
+bool isChecked=false;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -41,9 +38,12 @@ final List<String> anemeties=[
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   onTap: () {
+                    widget.onTap(); // Call the onTap function
+                    widget.isChecked;
                     setState(() {
                       isChecked = !isChecked;
                     });
+                    // SelectedAnemtiesController().toggleAmenity(index)
                   },
                   child: Container(
                     width: 16,

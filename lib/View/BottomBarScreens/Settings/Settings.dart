@@ -1,8 +1,12 @@
 
 
+import 'package:car_charging/Model/UserModel.dart';
+import 'package:car_charging/View%20Model/UserViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 import '../../../Utils/Assets/Assets.dart';
 import '../../../Utils/Color/Color.dart';
@@ -45,6 +49,7 @@ class _AccountState extends State<Settings> {
   ];
 
   bool switchValue = false;
+  final UserViewModel userViewModel = Get.put(UserViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +89,16 @@ class _AccountState extends State<Settings> {
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Row(
                     children: [
-                      CircularImage(ImageAssets.model, 70, 70),
+                      Container(
+                        height: 70,
+                        width: 70,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(image: NetworkImage(userViewModel.userExists.value.profileImage), fit: BoxFit.cover)
+
+
+                        ),
+                      ),
                       SizedBox(
                         width: 10,
                       ),
@@ -92,14 +106,14 @@ class _AccountState extends State<Settings> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Hamza Abbasi',
+                            userViewModel.userExists.value.firstName +" "+ userViewModel.userExists.value.lastName,
                             style: TextStyle(color: Colors.black, fontSize: 13),
                           ),
                           SizedBox(
                             height: 5,
                           ),
                           Text(
-                            '+1 (339) 215-9749',
+                            userViewModel.userExists.value.phone,
                             style: TextStyle(
                                 color: Colors.grey.withOpacity(0.7),
                                 fontSize: 10),

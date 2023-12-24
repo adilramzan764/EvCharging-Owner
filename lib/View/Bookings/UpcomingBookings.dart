@@ -1,34 +1,44 @@
-import 'package:flutter/cupertino.dart';
+// active_bookings.dart
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../Model/OrderModel.dart';
+import '../../Sockets/Sockets.dart';
 import '../../Utils/Widgets/Bookings_Widget.dart';
 
+
+
+
 class ActiveBookings extends StatelessWidget {
-  const ActiveBookings({Key? key}) : super(key: key);
+  final SocketController orderController = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return           Column(
+    return Column(
       children: [
         Expanded(
-          child: MediaQuery.removePadding(
-            context: context,
-            removeTop: true,
-            child: ListView.builder(
-              itemCount: 3, // Number of items in your list
-              itemBuilder: (BuildContext context, int index) {
-                // Return a widget for each item at the specified index
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Bookings_Widget(isupcoming: true, iscompleted: false, iscancelled: false,),
-                );
-              },
-            ),
+          // Remove the Obx widget from here
+          child: ListView.builder(
+            itemCount: orderController.order.length,
+            itemBuilder: (context, index) {
+              final orderMap = orderController.order[index];
+              final orderModel = OrderModel.fromJson(orderMap);
+
+              print(orderModel.status);
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Obx(() => Bookings_Widget(
+                  isupcoming: true,
+                  iscompleted: false,
+                  iscancelled: false,
+                  order: orderModel,
+                )),
+              );
+            },
           ),
         ),
-        SizedBox(height: MediaQuery.of(context).size.height*0.1,)
-
+        SizedBox(height: MediaQuery.of(context).size.height * 0.1),
       ],
-    )
-    ;
+    );
   }
 }

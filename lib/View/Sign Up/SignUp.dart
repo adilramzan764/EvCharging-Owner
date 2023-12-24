@@ -1,15 +1,22 @@
 import 'dart:io';
 
+import 'package:car_charging/Model/Seller_Model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
+import '../../ApiServices/SignUpApi.dart';
 import '../../Utils/Assets/Assets.dart';
 import '../../Utils/Color/Color.dart';
 import '../../Utils/Widgets/Custom Button/Custom Button.dart';
 import '../../Utils/Widgets/Custom Text Field/CustomTextField.dart';
 import '../../Utils/Widgets/ImagePicker_Dialog.dart';
-import '../Sign In/StationInfo.dart';
+import '../../Utils/Widgets/SnackBarManager.dart';
+import '../../View Model/SignUp_CiewModel.dart';
+import 'StationInfo.dart';
 
 class SignUp extends StatefulWidget {
   SignUp({Key? key}) : super(key: key);
@@ -19,14 +26,21 @@ class SignUp extends StatefulWidget {
 }
 
 class _SignUpState extends State<SignUp> {
-
   File? _selectedImage;
+  final SignUp_ViewModel userViewModel = Get.put(SignUp_ViewModel());
+
+  TextEditingController firstname=TextEditingController();
+  TextEditingController lastname=TextEditingController();
+  TextEditingController phonenumber=TextEditingController();
+  TextEditingController email=TextEditingController();
+  TextEditingController password=TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
     final ImagePickerHandler _imagePickerHandler = ImagePickerHandler(
       context,
-          (File? pickedImage) {
+      (File? pickedImage) {
         setState(() {
           _selectedImage = pickedImage;
         });
@@ -95,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                                 ImageAssets.Person,
                               ),
                             ),
-                            hinttext: 'First name',
+                            hinttext: 'First name', controller: firstname,
                           ),
                         ),
                         SizedBox(
@@ -110,7 +124,7 @@ class _SignUpState extends State<SignUp> {
                                 ImageAssets.Person,
                               ),
                             ),
-                            hinttext: 'Last name',
+                            hinttext: 'Last name', controller: lastname,
                           ),
                         ),
                         SizedBox(
@@ -125,7 +139,7 @@ class _SignUpState extends State<SignUp> {
                                 ImageAssets.Call,
                               ),
                             ),
-                            hinttext: 'Phone number',
+                            hinttext: 'Phone number', controller: phonenumber,
                           ),
                         ),
                         SizedBox(
@@ -140,7 +154,7 @@ class _SignUpState extends State<SignUp> {
                                 ImageAssets.MailBox,
                               ),
                             ),
-                            hinttext: 'Email',
+                            hinttext: 'Email', controller: email,
                           ),
                         ),
                         SizedBox(
@@ -155,7 +169,7 @@ class _SignUpState extends State<SignUp> {
                                 ImageAssets.Lock,
                               ),
                             ),
-                            hinttext: 'Password',
+                            hinttext: 'Password', controller: password,
                           ),
                         ),
                         SizedBox(
@@ -205,33 +219,35 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                         SizedBox(height: 10),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              height: 120,
-                              width: 120,
-                              decoration: BoxDecoration(
-                                shape: _selectedImage != null ? BoxShape.rectangle : BoxShape.circle,
-                                borderRadius: BorderRadius.circular(12), // You can adjust the border radius
-
-                              ),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10), // You can adjust the border radius
-                                child: _selectedImage != null
-                                    ? Image.file(
-                                  _selectedImage!,
-                                  height: 120,
-                                  width: 120,
-                                  fit: BoxFit.cover,
-                                )
-                                    : null, // Set the child to null if no image is selected
+                        if (_selectedImage != null)
+                          Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                height: 120,
+                                width: 120,
+                                decoration: BoxDecoration(
+                                  // shape: _selectedImage != null ? BoxShape.rectangle : BoxShape.circle,
+                                  borderRadius: BorderRadius.circular(
+                                      12), // You can adjust the border radius
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  // You can adjust the border radius
+                                  child: _selectedImage != null
+                                      ? Image.file(
+                                          _selectedImage!,
+                                          height: 120,
+                                          width: 120,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : null, // Set the child to null if no image is selected
+                                ),
                               ),
                             ),
                           ),
-                        ),
-
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.04,
                         ),
@@ -240,13 +256,43 @@ class _SignUpState extends State<SignUp> {
                           width: 140,
                           child: CustomButton(
                             text: 'Sign Up',
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => StationInfo(),
-                                ),
-                              );
+                            onPressed: () async {
+                              if (_selectedImage.isNull)
+                                SnackbarManager.showSnackbar(title: 'Error!', message: 'Profile pic not found', context: context);
+                              else {
+                                await EasyLoading.show(
+                                  status: 'Signing Up...',
+                                  maskType: EasyLoadingMaskType.black,
+                                );
+                                // await Future.delayed(Duration(seconds: 3));
+                                SellerModel newuser = SellerModel(
+                                    firstName: firstname.text,
+                                    lastName: lastname.text,
+                                    email: email.text,
+                                    password: password.text,
+                                    phone: phonenumber.text,
+                                    profileImage:
+                                        _selectedImage!.path.toString());
+                                print(_selectedImage!.path.toString());
+
+                                print(newuser.toString());
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => StationInfo(),
+                                //   ),
+                                // );
+                                userViewModel.createUser(newuser, context).then(
+                                    (value) async => await EasyLoading
+                                        .dismiss() // Ensure loading indicator is dismissed
+
+                                    );
+
+                                // OTPConfirmationDialog(context); // Call the dialog function
+
+                                // await EasyLoading.dismiss();
+
+                              }
                             },
                           ),
                         ),
