@@ -1,4 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:car_charging/View%20Model/UserViewModel.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -47,6 +51,7 @@ class EditProfileViewModel extends GetxController {
         phone: phone,
         profileImagePath: profileImage,
       );
+
 
     } catch (e) {
       print('Error updating user: $e');
