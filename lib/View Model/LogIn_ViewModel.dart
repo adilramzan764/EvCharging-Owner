@@ -27,11 +27,9 @@ class LoginViewModel extends GetxController {
           loginResponse.value.id != null) {
         _login(loginResponse.value.id!);
 
-        print("userid "+ loginResponse.value.id!);
       }
     } catch (e) {
       errorMessage("Failed to perform login: $e");
-      print("Error details: $e");
 
     } finally {
       isLoading(false);
@@ -51,7 +49,6 @@ class LoginViewModel extends GetxController {
   }
   void _login(String id) async {
     // Simulate a successful login
-    print("sahredprefrences id "+ loginResponse.value.id!);
 
     await _saveLoggedIn(id);
 

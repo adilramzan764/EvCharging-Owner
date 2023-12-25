@@ -1,65 +1,57 @@
-// models/order_model.dart
-// models/order_model.dart
-class OrderModel {
-  final String id;
-  final String station;
+class BookingInfo {
+  final String stationId;
   final String status;
-  final String buyerid;
+  final String buyerId;
+  final String buyerName;
+  final String buyerPhone;
+  final String chargerType;
+  final String carName;
   final String startedAt;
   final String chargingPrice;
   final String parkingPrice;
   final String duration;
   final String units;
+  final String id;
   final String createdAt;
   final String updatedAt;
-  final int v;
-  final String carName; // Added field for carName
-  final String buyerPhone; // Added field for buyerPhone
-  final String buyerName; // Added field for buyerName
-  final String chargerType;
 
-  OrderModel({
-    required this.id,
-    required this.station,
+  BookingInfo({
+    required this.stationId,
     required this.status,
-    required this.buyerid,
+    required this.buyerId,
+    required this.buyerName,
+    required this.buyerPhone,
+    required this.chargerType,
+    required this.carName,
     required this.startedAt,
     required this.chargingPrice,
     required this.parkingPrice,
     required this.duration,
     required this.units,
+    required this.id,
     required this.createdAt,
     required this.updatedAt,
-    required this.v,
-    required this.carName,
-    required this.buyerPhone,
-    required this.buyerName,
-    required this.chargerType,
-
   });
 
-  factory OrderModel.fromJson(Map<String, dynamic> json) {
-    return OrderModel(
-      id: json['_id'] ?? '',
-      station: json['station'] ?? '',
+  factory BookingInfo.fromJson(Map<String, dynamic> json) {
+    return BookingInfo(
+      stationId: json['stationId'] ?? '',
       status: json['status'] ?? '',
-      buyerid: json['buyerId'] ?? '',
+      buyerId: json['buyerId'] ?? '',
+      buyerName: json['buyerName'] ?? '',
+      buyerPhone: json['buyerPhone'] ?? '',
+      chargerType: json['chargerType'] ?? '',
+      carName: json['carName'] ?? '',
       startedAt: json['startedAt'] ?? '',
       chargingPrice: json['chargingPrice'] ?? '',
       parkingPrice: json['parkingPrice'] ?? '',
       duration: json['duration'] ?? '',
       units: json['units'] ?? '',
+      id: json['_id'] ?? '',
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
-      v: json['__v'] ?? 0,
-      carName: json['carName'] ?? '', // Assigning default value if key is not present
-      buyerPhone: json['buyerPhone'] ?? '', // Assigning default value if key is not present
-      buyerName: json['buyerName'] ?? '', // Assigning default value if key is not present
-      chargerType:  json['chargerType'] ??'',
     );
   }
 }
 
-List<OrderModel> orderListFromJson(List<dynamic> jsonList) {
-  return jsonList.map((item) => OrderModel.fromJson(item)).toList();
-}
+

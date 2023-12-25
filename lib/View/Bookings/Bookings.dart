@@ -26,7 +26,10 @@ class _BookingsState extends State<Bookings> with SingleTickerProviderStateMixin
   void initState() {
     super.initState();
     _orderViewModel.fetchOrdersById();
-
+    // _orderViewModel.orders.listen((orders) {
+    //   print("Orders are here: $orders"); // This will print the orders when they are updated
+    //   // Perform actions with orders here after they are updated
+    // });    print("object");
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabSelection); // Add listener for tab changes
   }
@@ -157,8 +160,10 @@ class _BookingsState extends State<Bookings> with SingleTickerProviderStateMixin
                     controller: _tabController,
                     children: <Widget>[
                       ActiveBookings(),
-                      ComplettedBookings(orders: _orderViewModel.orders,),
-                      CancelledBookings(orders: _orderViewModel.orders,)
+                      ComplettedBookings(),
+
+                      CancelledBookings()
+
                     ],
                   ),
                 ),

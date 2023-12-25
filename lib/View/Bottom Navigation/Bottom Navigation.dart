@@ -22,11 +22,15 @@ class MyBottomNavigationBar extends StatefulWidget {
 class _StackedBottomNavigationBarState extends State<MyBottomNavigationBar> {
   int _currentIndex = 0;
   //
+
   @override
   void initState() {
     super.initState();
+    Get.put(SocketController()).initSocket();
+    Get.put(SocketController()).init();
+
+
     // Initialize socket connection
-    Get.put(SocketController());
 
     // listeningforORders();
 

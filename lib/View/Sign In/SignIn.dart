@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../Sockets/Sockets.dart';
 import '../../Utils/Color/Color.dart';
 import '../../Utils/Widgets/Custom Button/Custom Button.dart';
 import '../../Utils/Widgets/Custom Text Field/CustomTextField.dart';
@@ -172,9 +173,6 @@ class SignIn extends StatelessWidget {
                             await userViewModel.getUserData(); // Call getUserData after successful login
                             final SharedPreferences prefs = await SharedPreferences.getInstance();
                             await prefs.setString("stationid", userViewModel.userExists.value.station);
-                            print('User ID: ${userViewModel.userExists.value.id}');
-                            print('spots: ${userViewModel.userExists.value.spots}');
-
                             await Future.delayed(const Duration(seconds: 2));
                             Navigator.pushAndRemoveUntil(
                               context,

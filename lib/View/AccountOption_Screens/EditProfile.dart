@@ -27,7 +27,7 @@ class EditProfile extends StatefulWidget {
 class _EditProfileState extends State<EditProfile> {
   final UserViewModel userViewModel = Get.put(UserViewModel());
 
-   final EditProfile_ViewModel editProfile_ViewModel = Get.put(EditProfile_ViewModel());
+   final EditProfileViewModel editProfile_ViewModel = Get.put(EditProfileViewModel());
 
    late TextEditingController firstname;
 
@@ -192,7 +192,8 @@ class _EditProfileState extends State<EditProfile> {
 
                     // print(newuser.toString());
 
-                    editProfile_ViewModel.updateseller(userId,"Adil",lastname.text,email.text,password.text,phonenumber.text, _selectedImage?.path ?? '',userViewModel, context).then(
+                    editProfile_ViewModel.updateSeller(userId,firstname.text,lastname.text,email.text,password.text,phonenumber.text, _selectedImage?.path ?? '', context).then(
+
                           (value) async => await EasyLoading.dismiss(),
                     );
                   } else {

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import 'Sockets/Sockets.dart';
 import 'View Model/UserViewModel.dart';
 import 'View/First Page/First Page.dart';
 

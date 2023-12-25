@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../../Model/OrderModel.dart';
 import '../../Utils/Widgets/Bookings_Widget.dart';
 import '../../View Model/GetOrders_VM.dart';
 import '../../View Model/GetStationSpots_VM.dart';
@@ -296,38 +297,42 @@ class Home extends StatelessWidget {
                   SizedBox(
                     height: 10,
                   ),
-                  Obx(() {
-                    // Check if orders are not empty
-                    if (_orderViewModel.orders.isNotEmpty) {
-                      return Container(
-                        height: MediaQuery.of(context).size.height * 0.39 *3 ,
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: 3,
-                          itemBuilder: (context, index) {
-                            final order = _orderViewModel.orders[index];
-                            return
-                              Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Bookings_Widget(isupcoming: true, iscompleted: false, iscancelled: false,order: order,),
-                              );
-                        
-                            //   ListTile(
-                            //   title: Text('Order ID: ${order.id}'),
-                            //   subtitle: Text('Status: ${order.status}'),
-                            // )
-                                ;
-                          },
-                        ),
-                      );
-                    } else {
-                      // Show a loading indicator or an empty state
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
+                  // Obx(() {
+                  //   // Check if orders are not empty
+                  //   if (_orderViewModel.orders.isNotEmpty) {
+                  //     return Container(
+                  //       height: MediaQuery.of(context).size.height * 0.39 *3 ,
+                  //       child: ListView.builder(
+                  //         padding: EdgeInsets.zero,
+                  //         physics: NeverScrollableScrollPhysics(),
+                  //         itemCount: 3,
+                  //         itemBuilder: (context, index) {
+                  //           Map<String, dynamic> orderData= _orderViewModel.orders[index];
+                  //           // Map<String, dynamic> orderData  = orders[index];
+                  //           // Map<String, dynamic> orderData = socketController.orderList[index];
+                  //           OrderModel orderModel = OrderModel.fromJson(orderData);
+                  //           return
+                  //             Padding(
+                  //               padding: const EdgeInsets.all(8.0),
+                  //               child: Bookings_Widget(isupcoming: true, iscompleted: false,
+                  //                 iscancelled: false,order: orderModel,),
+                  //             );
+                  //
+                  //           //   ListTile(
+                  //           //   title: Text('Order ID: ${order.id}'),
+                  //           //   subtitle: Text('Status: ${order.status}'),
+                  //           // )
+                  //               ;
+                  //         },
+                  //       ),
+                  //     );
+                  //   } else {
+                  //     // Show a loading indicator or an empty state
+                  //     return Center(
+                  //       child: CircularProgressIndicator(),
+                  //     );
+                  //   }
+                  // }),
 
                   SizedBox(height: MediaQuery.of(context).size.height*0.1,)
                 ],
