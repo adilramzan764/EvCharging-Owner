@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:car_charging/View%20Model/UserViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -35,9 +36,9 @@ userId: '',
    String email,
    String password,
    String phone,
-   String profileImage,      BuildContext context) async {
+   String? profileImage, UserViewModel userViewModel,     BuildContext context) async {
     try {
-      final response = await EditProfile_APi.updateseller(userId,firstName,lastName,email,password,phone,profileImage);
+      final response = await EditProfile_APi.updateseller(userId,firstName,lastName,email,password,phone,profileImage ?? "");
 
       if (response.statusCode == 200) {
         var responseData = json.decode(response.body);
@@ -45,6 +46,7 @@ userId: '',
 
         // sellerData(userData);
         print(sellerData.value.id);
+        userViewModel.getUserData();
 
         Get.snackbar('Success!', 'Seller Updated Successfully');
       } else {

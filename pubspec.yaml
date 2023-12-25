@@ -46,6 +46,8 @@ dependencies:
   file_picker:
   shared_preferences:
   socket_io_client:
+  url_launcher: 
+
 
 
 

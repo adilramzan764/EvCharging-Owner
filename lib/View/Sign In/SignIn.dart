@@ -20,8 +20,8 @@ import '../Sign Up/SignUp.dart';
 class SignIn extends StatelessWidget {
    SignIn({Key? key}) : super(key: key);
 
-   TextEditingController email=TextEditingController(text: 'john@gmail.com');
-   TextEditingController password=TextEditingController(text: '123');
+   TextEditingController email=TextEditingController(text: 'inzmam@gmai.com');
+   TextEditingController password=TextEditingController(text: '123r567');
    final LoginViewModel loginViewModel = Get.put(LoginViewModel());
 
    final UserViewModel userViewModel = Get.put(UserViewModel());

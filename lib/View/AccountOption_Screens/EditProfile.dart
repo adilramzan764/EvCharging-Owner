@@ -54,8 +54,8 @@ class _EditProfileState extends State<EditProfile> {
     );
     firstname = TextEditingController();
     lastname = TextEditingController();
-    phonenumber = TextEditingController(text: userViewModel.userExists.value.phone);
-    email = TextEditingController(text: userViewModel.userExists.value.email);
+    phonenumber = TextEditingController();
+    email = TextEditingController();
     password = TextEditingController();
 
     address = TextEditingController();
@@ -158,14 +158,13 @@ class _EditProfileState extends State<EditProfile> {
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
             EditProfile_TextField('assets/profile-grey.svg',userViewModel.userExists.value.lastName,lastname),
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
-            EditProfile_TextField('assets/emial.svg','Email',email),SizedBox(height: MediaQuery.of(context).size.height*0.01),
+            EditProfile_TextField('assets/emial.svg',userViewModel.userExists.value.email,email),SizedBox(height: MediaQuery.of(context).size.height*0.01),
 
 
-            EditProfile_TextField('assets/Location-grey.svg','Password',password),
-            SizedBox(height: MediaQuery.of(context).size.height*0.01,),
+
             EditProfile_TextField('assets/Location-grey.svg','Address',address),
             SizedBox(height: MediaQuery.of(context).size.height*0.01,),
-            EditProfile_TextField('assets/Call.svg','Phone number',phonenumber),
+            EditProfile_TextField('assets/Call.svg',userViewModel.userExists.value.phone,phonenumber),
 
             SizedBox(height: MediaQuery.of(context).size.height*0.1,),
             Container(
@@ -193,7 +192,7 @@ class _EditProfileState extends State<EditProfile> {
 
                     // print(newuser.toString());
 
-                    editProfile_ViewModel.updateseller(userId,firstname.text,lastname.text,email.text,password.text,phonenumber.text, _selectedImage?.path ?? '', context).then(
+                    editProfile_ViewModel.updateseller(userId,"Adil",lastname.text,email.text,password.text,phonenumber.text, _selectedImage?.path ?? '',userViewModel, context).then(
                           (value) async => await EasyLoading.dismiss(),
                     );
                   } else {

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 
+import '../CallHandler.dart';
 import '../Color/Color.dart';
 import 'Custom Button/Custom Button.dart';
 
@@ -153,7 +154,9 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                     Container(
                       height: MediaQuery.of(context).size.height*0.03,
                       width: MediaQuery.of(context).size.width*0.21,
-                      child: CustomButton(text: 'Call', onPressed: () {  },
+                      child: CustomButton(text: 'Call', onPressed: () {
+                        CallHandler.makePhoneCall(widget.order!.buyerPhone);
+                      },
 
                       ),
 

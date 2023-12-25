@@ -16,7 +16,7 @@ Widget EditProfile_TextField(String icon, String hintext,TextEditingController c
       decoration: InputDecoration(
         prefixIcon: Transform.scale(scale: 0.3, child: SvgPicture.asset(icon)),
         hintText: hintext,
-        hintStyle: TextStyle(color: Colors.grey.withOpacity(0.5), fontSize: 13),
+        hintStyle: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.w400),
         // Hint text color
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
