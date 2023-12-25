@@ -10,11 +10,11 @@ import 'Custom Button/Custom Button.dart';
 
 
 class Bookings_Widget extends StatefulWidget {
-  bool isupcoming;  bool iscompleted;   bool iscancelled;OrderModel? order;
+  bool isupcoming;  bool iscompleted;   bool iscancelled;BookingInfo? order;
 
+int? index;
 
-
-  Bookings_Widget({Key? key,required this.isupcoming, required this.iscompleted,required this.iscancelled,this.order}) : super(key: key);
+  Bookings_Widget({Key? key,required this.isupcoming, this.index, required this.iscompleted,required this.iscancelled,this.order}) : super(key: key);
 
   @override
   State<Bookings_Widget> createState() => _Bookings_WidgetState();
@@ -27,12 +27,14 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
 
    @override
   Widget build(BuildContext context) {
-    return Stack(
+     final BookingInfo orderData = widget.order!;
+
+     return Stack(
       children: [
         Container(
           height: MediaQuery.of(context).size.height * 0.37,
           width: double.infinity,
-          padding: widget.iscompleted ?EdgeInsets.all(8) : EdgeInsets.all(2),
+          padding: widget.iscompleted ?const EdgeInsets.all(8) : const EdgeInsets.all(2),
           decoration: BoxDecoration(
             color: Colors.white, borderRadius: BorderRadius.circular(15),
             boxShadow: [
@@ -73,7 +75,7 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           scale: 0.6,
                           child: SvgPicture.asset(ImageAssets.teslacar)),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8,
                     ),
                     Column(
@@ -81,18 +83,18 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          widget.order!.carName,
-                          style: TextStyle(color: Colors.black, fontSize: 13),
+                          orderData.carName + widget.index.toString(),
+                          style: const TextStyle(color: Colors.black, fontSize: 13),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
                         Text(
-                          widget.order!.chargerType,
+                          orderData.chargerType,
                           style: TextStyle(
                               color: Colors.grey.withOpacity(0.7), fontSize: 10),
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 3,
                         ),
         SvgPicture.asset(ImageAssets.plug1,height: 15,width: 15,)                  ],
@@ -112,7 +114,7 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                             child: Container(
                               height: 45,
                               width: 45,
-                              decoration: BoxDecoration(
+                              decoration: const BoxDecoration(
                                   color: ColorValues.Blue, shape: BoxShape.circle),
                               child: Center(
                                 child: SvgPicture.asset('assets/directions.svg'),
@@ -136,15 +138,15 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.order!.buyerName,
-                          style: TextStyle(color: Colors.black, fontSize: 11),
+                          orderData.buyerName,
+                          style: const TextStyle(color: Colors.black, fontSize: 11),
                         ),
                         Text(
-                          widget.order!.buyerPhone,
+                          orderData.buyerPhone,
                           style: TextStyle(color: widget.isupcoming ? Colors.black :Colors.grey.withOpacity(0.6), fontSize: 11),
                         ),
                         Text(
-                          ' ${widget.order!.startedAt}',
+                          ' ${orderData.startedAt}',
                           style: TextStyle(color: widget.isupcoming ? Colors.black :Colors.grey.withOpacity(0.6), fontSize: 11),
                         ),
                       ],
@@ -178,10 +180,10 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              ' ${widget.order!.duration} hours',
-                              style: TextStyle(fontSize: 11),
+                              ' ${orderData.duration} hours',
+                              style: const TextStyle(fontSize: 11),
                             ),
-                            Text(
+                            const Text(
                               'Charging Hours',
                               style: TextStyle(
                                   fontSize: 11, color: ColorValues.Blue),
@@ -202,10 +204,10 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              '\$ ${widget.order!.chargingPrice}',
-                              style: TextStyle(fontSize: 11),
+                              '\$ ${orderData.chargingPrice}',
+                              style: const TextStyle(fontSize: 11),
                             ),
-                            Text(
+                            const Text(
                               'Charging Price',
                               style: TextStyle(
                                   fontSize: 11, color: ColorValues.Blue),
@@ -226,10 +228,10 @@ class _Bookings_WidgetState extends State<Bookings_Widget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Text(
-                              "\$ ${widget.order!.parkingPrice}",
-                              style: TextStyle(fontSize: 11),
+                              "\$ ${orderData.parkingPrice}",
+                              style: const TextStyle(fontSize: 11),
                             ),
-                            Text(
+                            const Text(
                               'Parking fee',
                               style: TextStyle(
                                   fontSize: 11, color: ColorValues.Blue),
@@ -250,9 +252,9 @@ if(widget.iscancelled)
         Container(
           height: MediaQuery.of(context).size.height * 0.37,
           width: double.infinity,
-          padding: widget.iscompleted ?EdgeInsets.all(8) : EdgeInsets.all(2),
+          padding: widget.iscompleted ?const EdgeInsets.all(8) : const EdgeInsets.all(2),
           decoration: BoxDecoration(
-            color: Color(0xffDADAD9).withOpacity(0.1), borderRadius: BorderRadius.circular(15),
+            color: const Color(0xffDADAD9).withOpacity(0.1), borderRadius: BorderRadius.circular(15),
             boxShadow: [
               BoxShadow(
                   color: Colors.grey.withOpacity(0.4),

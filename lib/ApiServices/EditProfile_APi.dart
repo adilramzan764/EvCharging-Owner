@@ -1,62 +1,53 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'package:car_charging/Model/Seller_Model.dart';
-import 'package:car_charging/Model/SignUp_Model.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-import '../Model/UserModel.dart';
+
 import '../const/BaseURL.dart';
 
-class EditProfile_APi {
-  static Future<http.Response> updateseller(
-    String userId,
-    String firstName,
-    String lastName,
-    String email,
-    String password,
-    String phone,
-    String profileImage,
-  ) async {
+class EditProfileApi {
+  Future<void> updateProfile({
+    String? userId,
+    String? firstName,
+    String? lastName,
+    String? email,
+    String? password,
+    String? phone,
+    String? profileImagePath, // Path to the profile image if needed
+  }) async {
     try {
-      //
-      // if (userId == null || user.userId!.isEmpty) {
-      //   return http.Response('{"error":"userId is missing"}', 400);
-      // }
+      var url = Uri.parse("${baseUrl}sellerInfoUpdate"); // Replace this with your actual API endpoint
+      var request = http.MultipartRequest('POST', url);
 
-      const String URL = "${baseUrl}sellerInfoUpdate";
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse(URL),
-      );
+      // Add required parameters to the request body
+      request.fields['userId'] = userId ?? '';
+      if (firstName != null) request.fields['firstName'] = firstName;
+      if (lastName != null) request.fields['lastName'] = lastName;
+      if (email != null) request.fields['email'] = email;
+      if (password != null) request.fields['password'] = password;
+      if (phone != null) request.fields['phone'] = phone;
 
-      print(URL);
+      // Handle profile image if provided
+      if (profileImagePath != "") {
+        var file = await http.MultipartFile.fromPath('profileImage', profileImagePath!);
+        request.files.add(file);
+      }
 
-      request.headers['Content-Type'] = 'application/json';
-      request.fields['userId'] = userId;
-      request.fields['firstname'] = firstName;
-      request.fields['lastname'] = lastName;
-      request.fields['email'] = email;
-      request.fields['password'] = password;
-      request.fields['phone'] = phone;
-      print(userId);
-      File profileImageFile = File(profileImage);
-      request.files.add(await http.MultipartFile.fromPath(
-        'profileImage',
-        profileImageFile.path,
-      ));
-      print(request.fields);
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
 
-      var response = await request.send();
-      var responseString = await http.Response.fromStream(response);
+      if (response.statusCode == 200) {
+        // Success
+        Get.snackbar('Success!', 'Seller Updated Successfully');
 
-      print(response.reasonPhrase);
-      print(responseString.body);
-
-      return http.Response(responseString.body, response.statusCode ?? 500);
+        print('User Info Updated successfully');
+      } else {
+        // Error
+        print('Error updating user info: ${response.body}');
+      }
     } catch (error) {
-      print('Error: $error');
-      throw Exception('An error occurred');
+      // Exception/Error Handling
+      print('Exception occurred: $error');
     }
   }
 }

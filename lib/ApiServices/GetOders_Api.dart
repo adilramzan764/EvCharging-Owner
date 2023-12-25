@@ -8,17 +8,16 @@ import '../Model/OrderModel.dart';
 import '../const/BaseURL.dart';
 
 class GetOrders_Api {
-  Future<List<OrderModel>> getOrdersById() async {
+  Future<List<Map<String, dynamic>>> getOrdersById() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString("id");
-    final response = await http.get(Uri.parse('${baseUrl}getOrdersById/65823fa9c93d7ef8ef6adfc8'));
-    print(response.body);
+    final response = await http.get(Uri.parse('${baseUrl}getOrdersById/6588c6c29af2fafb9d26d5ad'));
 
     if (response.statusCode == 200) {
-      final List<dynamic> listJson = json.decode(response.body)['orders']; // Explicit casting to List<dynamic>
-      print(response);
+      final List<dynamic> decodedJson = json.decode(response.body)['orders'];
+      final List<Map<String, dynamic>> listJson = decodedJson.cast<Map<String, dynamic>>();
 
-      return listJson.map((json) => OrderModel.fromJson(json)).toList();
+      return listJson;
     } else {
       throw Exception('Failed to load orders');
     }

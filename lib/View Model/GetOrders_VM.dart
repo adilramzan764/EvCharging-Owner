@@ -7,20 +7,22 @@ import '../ApiServices/GetOders_Api.dart';
 import '../Model/OrderModel.dart';
 
 class OrderViewModel extends GetxController {
-  RxList<OrderModel> orders = <OrderModel>[].obs; // Use OrderModel instead of dynamic
+  RxList<Map<String, dynamic>> orders = <Map<String, dynamic>>[].obs;
 
   final GetOrders_Api orderApi = GetOrders_Api();
 
   Future<void> fetchOrdersById() async {
     try {
-      final List<OrderModel> ordersResult = await orderApi.getOrdersById();
-
-      orders.value = ordersResult;
+      final List<Map<String, dynamic>> ordersResult = await orderApi.getOrdersById();
+      orders.addAll(ordersResult); // Wrap ordersResult in a list
+      // print("this is the list:" + orders.toString());
     } catch (error) {
+      print("object");
       print("Error: $error");
     }
   }
 }
+
 
 
 
